@@ -131,7 +131,7 @@ function startGame() {
     dealCard(playerHand);
     dealCard(dealerHand);
     dealCard(playerHand);
-    dealCard(dealerHand);
+    // dealCard(dealerHand);
 
     playerScore = calculateScore(playerHand);
     dealerScore = calculateScore(dealerHand);
