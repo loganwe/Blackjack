@@ -106,7 +106,7 @@ function endGame() {
 }
 
 function dealerPlay() {
-    while (dealerScore < 17) {
+    while (dealerScore < 17||dealerHand.length<3) {
         dealCard(dealerHand);
         dealerScore = calculateScore(dealerHand);
         displayHand(dealerHand, dealerCardsDiv);
