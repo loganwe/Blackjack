@@ -106,7 +106,7 @@ function endGame() {
 }
 
 function dealerPlay() {
-    while (dealerScore < 17||dealerHand.length<3) {
+    while (dealerScore < 17&&dealerHand.length<=3) {
         dealCard(dealerHand);
         dealerScore = calculateScore(dealerHand);
         displayHand(dealerHand, dealerCardsDiv);
@@ -162,8 +162,22 @@ hitButton.addEventListener('click', () => {
 
     if (playerScore > 21) {
         endGame();
+    } else {
+        // Dealer draws a card after player hits, if player hasn't busted
+        const dealerCard = dealCard(dealerHand);
+        if (dealerCard) {
+            dealerScore = calculateScore(dealerHand);
+            displayHand(dealerHand, dealerCardsDiv);
+            dealerScoreDisplay.textContent = `Score: ${dealerScore}`;
+        }
     }
 });
+
+standButton.addEventListener('click', () => {
+    // Dealer completes their play
+    dealerPlay();
+});
+
 
 standButton.addEventListener('click', dealerPlay);
 
