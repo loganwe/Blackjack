@@ -1,0 +1,88 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: #2c3e50;
+    color: #ecf0f1;
+    margin: 0;
+    padding: 0;
+}
+
+.game-container {
+    margin: 20px auto;
+    max-width: 600px;
+    padding: 20px;
+    border: 2px solid #ecf0f1;
+    border-radius: 10px;
+    background-color: #34495e;
+}
+
+.game-info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+#player-cards, #dealer-cards {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.card {
+    background-color: #fff;
+    color: #000;
+    padding: 10px;
+    border: 1px solid #000;
+    border-radius: 5px;
+    width: 50px;
+    text-align: center;
+}
+
+.controls button {
+    margin: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#hit-button {
+    background-color: #27ae60;
+    color: white;
+}
+
+#stand-button {
+    background-color: #e67e22;
+    color: white;
+}
+
+#restart-button {
+    background-color: #c0392b;
+    color: white;
+}
+
+#message {
+    margin-top: 20px;
+    font-size: 18px;
+    font-weight: bold;
+}
+.betting-container {
+    margin: 20px 0;
+}
+
+#bet-input {
+    padding: 5px;
+    width: 100px;
+}
+
+#place-bet-button, #all-in-button {
+    background-color: #2980b9;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+
