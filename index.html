@@ -4,10 +4,66 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blackjack Game</title>
-    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/appwrite@16.0.2"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        #auth-container {
+            margin-top: 50px;
+        }
+
+        #auth-form input {
+            padding: 10px;
+            margin: 5px;
+        }
+
+        #auth-form button, #anonymous-button {
+            padding: 10px 20px;
+            margin: 5px;
+            cursor: pointer;
+        }
+
+        .game-container {
+            margin: 20px;
+        }
+
+        .game-info, .betting-container, .controls {
+            margin: 20px auto;
+            text-align: center;
+        }
+
+        .card {
+            display: inline-block;
+            border: 1px solid #000;
+            padding: 10px;
+            margin: 5px;
+        }
+    </style>
 </head>
 <body>
-    <div class="game-container">
+    <!-- Authentication Section -->
+    <div id="auth-container">
+        <h2>Welcome to Blackjack</h2>
+        <form id="auth-form">
+            <input type="email" id="email" placeholder="Email" required />
+            <input type="password" id="password" placeholder="Password" required />
+            <button type="button" id="login-button">Log In</button>
+            <button type="button" id="signup-button">Sign Up</button>
+        </form>
+        <button id="anonymous-button">Play Anonymously</button>
+    </div>
+
+    <!-- Game Section -->
+    <div id="game-container" class="hidden">
         <h1>Blackjack</h1>
         <div class="game-info">
             <div>
@@ -22,8 +78,8 @@
             </div>
         </div>
         <div class="controls">
-            <button id="hit-button">Hit</button>
-            <button id="stand-button">Stand</button>
+            <button id="hit-button" disabled>Hit</button>
+            <button id="stand-button" disabled>Stand</button>
             <button id="restart-button">Restart</button>
         </div>
         <div class="betting-container">
@@ -32,9 +88,82 @@
             <input type="number" id="bet-input" placeholder="Enter your bet" />
             <button id="place-bet-button">Place Bet</button>
         </div>
-        
         <p id="message"></p>
     </div>
-    <script src="script.js"></script>
+
+    <script>
+        // Appwrite Client Initialization
+        const client = new Appwrite.Client();
+        client
+            .setEndpoint('https://cloud.appwrite.io/v1') // Replace with your endpoint
+            .setProject('6775a915000fb71fd40c'); // Replace with your project ID
+
+        const account = new Appwrite.Account(client);
+
+        // Authentication Logic
+        const authContainer = document.getElementById('auth-container');
+        const gameContainer = document.getElementById('game-container');
+
+        document.getElementById('login-button').addEventListener('click', () => {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            account.createEmailSession(email, password)
+                .then(() => {
+                    authContainer.classList.add('hidden');
+                    gameContainer.classList.remove('hidden');
+                })
+                .catch(error => alert('Login failed: ' + error.message));
+        });
+
+        document.getElementById('signup-button').addEventListener('click', () => {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            account.create('unique()', email, password)
+                .then(() => alert('Sign-up successful! Please log in.'))
+                .catch(error => alert('Sign-up failed: ' + error.message));
+        });
+
+        document.getElementById('anonymous-button').addEventListener('click', () => {
+            account.createAnonymousSession()
+                .then(() => {
+                    authContainer.classList.add('hidden');
+                    gameContainer.classList.remove('hidden');
+                })
+                .catch(error => alert('Anonymous login failed: ' + error.message));
+        });
+
+        // Blackjack Game Logic
+        const suits = ['Hearts', 'Diamonds', 'Clubs', 'Spades'];
+        const values = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
+
+        let deck = [], playerHand = [], dealerHand = [];
+        let playerScore = 0, dealerScore = 0, balance = 1000, currentBet = 0;
+
+        const playerCardsDiv = document.getElementById('player-cards');
+        const dealerCardsDiv = document.getElementById('dealer-cards');
+        const playerScoreDisplay = document.getElementById('player-score');
+        const dealerScoreDisplay = document.getElementById('dealer-score');
+        const messageDisplay = document.getElementById('message');
+        const balanceDisplay = document.getElementById('balance');
+        const betInput = document.getElementById('bet-input');
+
+        // Function Definitions (createDeck, shuffleDeck, calculateScore, etc.)
+        function createDeck() { /* ... */ }
+        function shuffleDeck() { /* ... */ }
+        function calculateScore(hand) { /* ... */ }
+        function displayHand(hand, container) { /* ... */ }
+        function updateBalanceDisplay() { balanceDisplay.textContent = `Balance: $${balance}`; }
+        function startGame() { /* ... */ }
+        function endGame() { /* ... */ }
+        function dealerPlay() { /* ... */ }
+
+        // Event Listeners (Hit, Stand, Restart, Bet)
+        document.getElementById('hit-button').addEventListener('click', () => { /* ... */ });
+        document.getElementById('stand-button').addEventListener('click', () => { /* ... */ });
+        document.getElementById('restart-button').addEventListener('click', () => { /* ... */ });
+
+        // Initialize Game
+        updateBalanceDisplay();
+    </script>
 </body>
 </html>
